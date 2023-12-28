@@ -1,6 +1,7 @@
 import difflib
+import re
 
-def fixdate(d):
+def fix_month_name(dt):
     monmap = {
         'january': 'jan',
         'february': 'feb',
@@ -23,16 +24,20 @@ def fixdate(d):
         'november': 'nov',
         'disember': 'dec'
     }
-    d, m, y = d.split()
+    try:
+        d, m, y = re.split(r"[ :\-/\s]+", dt.strip())
+    except(ValueError):
+        cleaned_text = re.sub(r'[^a-zA-Z0-9]', '', dt)
+        regex_pattern = re.compile(r'[a-zA-Z]+')
+        matches = regex_pattern.findall(cleaned_text)
+        idx = dt.index(matches[0])
+        d = dt[:idx]
+        m = matches[0]
+        y = dt[idx+len(m):]
     months = list(set(monmap.keys()) | set(monmap.values()))
-    m = difflib.get_close_matches(m.lower(), months, 1) or [m]
-    m = monmap.get(m[0], m[0])
-
-    return f'{d} {m} {y}'.upper()
-
-print(fixdate('25 ugust 2014'))
-print(fixdate('14 Auust 2014'))
-print(fixdate('18 Marc 2015'))
-print(fixdate('18 desember 2015'))
-print(fixdate('18 Marc 2015'))
-print(fixdate('18 og 2015'))
+    close_match = difflib.get_close_matches(m.lower(), months, 1)
+    if close_match == []:
+        return dt
+    
+    m = monmap.get(close_match[0])
+    return f'{d}-{m}-{y}'.upper()
