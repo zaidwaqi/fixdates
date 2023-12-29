@@ -25,8 +25,10 @@ def fix_month_name(dt):
         'disember': 'dec'
     }
     try:
+        # split 20-APR-2020 to d = 20, m = APR, y = 2020, applicable to all separators
         d, m, y = re.split(r"[ :\-/\s]+", dt.strip())
     except(ValueError):
+        # split 20APR2020 to d = 20, m = APR, y = 2020
         cleaned_text = re.sub(r'[^a-zA-Z0-9]', '', dt)
         regex_pattern = re.compile(r'[a-zA-Z]+')
         matches = regex_pattern.findall(cleaned_text)
