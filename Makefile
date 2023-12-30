@@ -12,7 +12,8 @@ clean:
 	@rm -rf tests/.pytest_cache
 
 test:
-	@pytest -v
+	@rm -rf tests/reports/*
+	@pytest -v --tb=line || true
 
 build: test clean
 	@python -m build

@@ -3,7 +3,8 @@ sys.path.append("src")
 
 import os
 import csv
-from fixdates.main import fix_month_name
+import pytest
+from fixdates.main import fixdate
 
 def read_sample_data(filename):
     data = []
@@ -13,27 +14,25 @@ def read_sample_data(filename):
             data.append(row)
     return data
 
-def test_fixdate(filename="unfixable_month_names.csv"):
+def test_fixdate(filename="unfixable_dates.csv"):
     sample_data = read_sample_data("tests/data/" + filename)
     failed_results = []
 
     for row in sample_data:
         date_column = row[0]
-        expected_result = date_column
 
         # Assuming 'fixdate' function processing and validation
-        result = fix_month_name(date_column)
-
-        if result != expected_result.strip():
-            failed_results.append((date_column, expected_result, result))
+        fixed = fixdate(date_column)
+        if fixed is not None:  
+            failed_results.append(f"Is fixable: Input: {date_column}, Results: {fixed}")  
 
     if failed_results:
         # Save failed results to a file in reports directory
         os.makedirs("tests/reports", exist_ok=True)
         report_file = "tests/reports/unfixable_dates_failures.txt"
-        with open(report_file,"w") as file:
+        with open(report_file, "w") as file:
             file.write("Failed results:\n")
-            for failed_result in failed_results:
-                file.write(f"{failed_result[0]} --> Expected: {failed_result[1]}, Actual: {failed_result[2]}\n")
+            for date in failed_results:
+                file.write(date + "\n")
 
-        assert False, f"Failed results saved to {report_file}"
+        pytest.fail(f"Failed results saved to {report_file}")        

@@ -3,7 +3,8 @@ sys.path.append("src")
 
 import os
 import csv
-from fixdates.main import fix_month_name
+import pytest
+from fixdates.main import fixdate
 
 def read_sample_data(filename):
     data = []
@@ -13,7 +14,7 @@ def read_sample_data(filename):
             data.append(row)
     return data
 
-def test_fix_month_name(filename="fixable_month_names.csv"):
+def test_fixdate(filename="fixable_dates.csv"):
     sample_data = read_sample_data("tests/data/" + filename)
     failed_results = []
 
@@ -22,7 +23,7 @@ def test_fix_month_name(filename="fixable_month_names.csv"):
         expected_result = row[1]
 
         # Assuming 'fixdate' function processing and validation
-        result = fix_month_name(date_column)
+        result = fixdate(date_column)
 
         if result != expected_result.strip():
             failed_results.append((date_column, expected_result, result))
@@ -36,4 +37,4 @@ def test_fix_month_name(filename="fixable_month_names.csv"):
             for failed_result in failed_results:
                 file.write(f"{failed_result[0]} --> Expected: {failed_result[1]}, Actual: {failed_result[2]}\n")
 
-        assert False, f"Failed results saved to {report_file}"
+        pytest.fail(f"Failed results saved to {report_file}")

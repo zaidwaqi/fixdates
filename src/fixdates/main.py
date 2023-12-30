@@ -2,7 +2,29 @@ import sys
 import difflib
 import re
 
-def fix_month_name(dt):
+from datetime import datetime
+
+def parse_date(date_string):
+    date_formats = [
+        "%d-%b-%Y",
+        "%d-%m-%Y",
+        "%Y-%b-%d",
+        "%Y-%m-%d",
+        "%m/%d/%y %I:%M %p"
+        # Add more date formats as needed
+    ]
+
+    for date_format in date_formats:
+        try:
+            parsed_date = datetime.strptime(date_string, date_format)
+            return parsed_date  # Return the parsed date if successful
+        except ValueError:
+            continue  # Continue to the next format if ValueError is raised
+
+    # If none of the formats match
+    raise ValueError("Unrecognized date format: {}".format(date_string))
+
+def fixdate(dt):
     monmap = {
         'january': 'jan',
         'february': 'feb',
@@ -53,16 +75,22 @@ def fix_month_name(dt):
 
     months = set(monmap.keys())
     close_match = difflib.get_close_matches(m.lower(), months, 1)
-    
-    if close_match == []:
-        return dt
 
-    m = monmap.get(close_match[0])
-    return f'{d}-{m}-{y}'.upper()
+    try:
+        m = monmap.get(close_match[0])
+    except(IndexError):
+        pass
+
+    dt = f'{d}-{m}-{y}'.upper()
+    try:
+        dt = parse_date(dt).strftime('%Y-%b-%d').upper()
+    except(ValueError):
+        return None
+    return dt
 
 def main():
     if __name__ == 'fixdates.main':
         if len(sys.argv) > 1:
-            print(fix_month_name(sys.argv[1]))
+            print(fixdate(sys.argv[1]))
         else:
             print('Usage: fixdates <date>')
