@@ -23,4 +23,4 @@ Homepage = "https://github.com/zaidwaqi/fixdates"
 Issues = "https://github.com/pypa/zaidwaqi/fixdates/issues"
 
 [project.scripts]
-fixdates = "fixdates.main:fix_month_name"
+fixdates = "fixdates.main:main"

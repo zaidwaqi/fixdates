@@ -1,3 +1,4 @@
+import sys
 import difflib
 import re
 
@@ -58,3 +59,10 @@ def fix_month_name(dt):
 
     m = monmap.get(close_match[0])
     return f'{d}-{m}-{y}'.upper()
+
+def main():
+    if __name__ == 'fixdates.main':
+        if len(sys.argv) > 1:
+            print(fix_month_name(sys.argv[1]))
+        else:
+            print('Usage: fixdates <date>')
