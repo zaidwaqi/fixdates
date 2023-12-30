@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fixdates"
-version = "0.0.3"
+version = "0.0.4"
 authors = [
     { name="Zaid Waqi", email="zaidwaqi@gmail.com" },
 ]
@@ -20,7 +20,7 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/zaidwaqi/fixdates"
-Issues = "https://github.com/pypa/zaidwaqi/issues/fixdates"
+Issues = "https://github.com/pypa/zaidwaqi/fixdates/issues"
 
 [project.scripts]
 fixdates = "fixdates.main:fix_month_name"
