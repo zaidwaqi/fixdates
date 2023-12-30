@@ -1,6 +1,7 @@
 import sys
 sys.path.append("src")
 
+import os
 import csv
 from fixdates.main import fix_month_name
 
@@ -28,6 +29,7 @@ def test_fix_month_name(filename="fixable_month_names.csv"):
 
     if failed_results:
         # Save failed results to a file in reports directory
+        os.makedirs("tests/reports", exist_ok=True)
         report_file = "tests/reports/fixable_dates_failures.txt"
         with open(report_file,"w") as file:
             file.write("Failed results:\n")

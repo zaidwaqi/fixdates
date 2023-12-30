@@ -22,8 +22,21 @@ def fix_month_name(dt):
         'september': 'sep',
         'oktober': 'oct',
         'november': 'nov',
-        'disember': 'dec'
+        'disember': 'dec',
+        'jan': 'jan',
+        'feb': 'feb',
+        'mar': 'mar',
+        'apr': 'apr',
+        'may': 'may',
+        'jun': 'jun',
+        'jul': 'jul',
+        'aug': 'aug',
+        'sep': 'sep',
+        'oct': 'oct',
+        'nov': 'nov',
+        'dec': 'dec'
     }
+
     try:
         # split 20-APR-2020 to d = 20, m = APR, y = 2020, applicable to all separators
         d, m, y = re.split(r"[ :\-/\s]+", dt.strip())
@@ -36,10 +49,12 @@ def fix_month_name(dt):
         d = dt[:idx]
         m = matches[0]
         y = dt[idx+len(m):]
-    months = list(set(monmap.keys()) | set(monmap.values()))
+
+    months = set(monmap.keys())
     close_match = difflib.get_close_matches(m.lower(), months, 1)
+    
     if close_match == []:
         return dt
-    
+
     m = monmap.get(close_match[0])
     return f'{d}-{m}-{y}'.upper()
