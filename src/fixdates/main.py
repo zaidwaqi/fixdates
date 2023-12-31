@@ -1,6 +1,8 @@
 import sys
 import difflib
 import re
+import requests
+import csv, io
 
 from datetime import datetime
 
@@ -88,9 +90,47 @@ def fixdate(dt):
         return None
     return dt
 
+def fetch_gist_raw_text(gist_raw_url):
+    response = requests.get(gist_raw_url)
+    if response.status_code == 200:
+        return response.text
+    else:
+        print("Failed to fetch raw text content from the Gist.")
+        return None
+
 def main():
     if __name__ == 'fixdates.main':
         if len(sys.argv) > 1:
-            print(fixdate(sys.argv[1]))
+            input = sys.argv[1]
+            if "gist.githubusercontent.com" in input:
+                # Fetch raw text content from the Gist
+                raw_content = fetch_gist_raw_text(input)
+                # Create an in-memory file-like object from the string
+                csv_data = io.StringIO(raw_content)
+                # CSV reader to parse the data
+                fixables = []
+                unfixables = []
+                csv_reader = csv.reader(csv_data, delimiter=',')
+                for row in csv_reader:
+                    try:
+                        raw_date = row[0]
+                        fixed_date = fixdate(raw_date)
+                    except(IndexError, ValueError):
+                        continue
+
+                    if fixed_date:
+                        fixables.append((raw_date, fixed_date))
+                    else:
+                        unfixables.append(raw_date)
+                
+                print("Fixable dates:")
+                for raw_date, fixed_date in fixables:
+                    print(f"{raw_date} \t {fixed_date}")
+                
+                print("\nUnfixable dates:")
+                for raw_date in unfixables:
+                    print(raw_date)
+            else:
+                print(fixdate(input))
         else:
-            print('Usage: fixdates <date>')
+            print('Usage: fixdates <date> or Github gist URL')
