@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fixdates"
-version = "0.0.7"
+version = "0.0.8"
 authors = [
     { name="Zaid Waqi", email="zaidwaqi@gmail.com" },
 ]
