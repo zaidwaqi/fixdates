@@ -75,6 +75,14 @@ def fixdate(dt):
         m = matches[0]
         y = dt[idx+len(m):]
 
+##husna add
+    if len(y) == 2:
+        current_year = datetime.now().year
+        current_century = current_year // 100 * 100
+        y = str(current_century + int(y))
+##
+        
+
     months = set(monmap.keys())
     close_match = difflib.get_close_matches(m.lower(), months, 1)
 
