@@ -33,6 +33,7 @@ def fixdate(dt):
         'march': 'mar',
         'april': 'apr',
         'may': 'may',
+        'mei': 'may',
         'june': 'jun',
         'july': 'jul',
         'august': 'aug',
@@ -59,7 +60,8 @@ def fixdate(dt):
         'sep': 'sep',
         'oct': 'oct',
         'nov': 'nov',
-        'dec': 'dec'
+        'dec': 'dec',
+        'dis': 'dec'
     }
 
     try:

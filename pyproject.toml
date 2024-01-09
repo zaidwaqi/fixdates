@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fixdates"
-version = "0.0.8"
+version = "0.0.8.1"
 authors = [
     { name="Zaid Waqi", email="zaidwaqi@gmail.com" },
 ]
 description = "A simple program to parse and clean date string to standardized date string dd-mmm-yyyy. Useful in pre-processing prior to conversion to proper date data type."
 readme = "README.md"
 license = {text = "GPLv3"}
-requires-python = ">=3.11"
+requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
