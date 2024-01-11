@@ -66,7 +66,7 @@ def fixdate(dt):
 
     try:
         # split 20-APR-2020 to d = 20, m = APR, y = 2020, applicable to all separators
-        d, m, y = re.split(r"[ :\-/\s]+", dt.strip())
+        d, m, y = re.split(r"[ :\-/\s\.]+", dt.strip())
     except(ValueError):
         # split 20APR2020 to d = 20, m = APR, y = 2020
         cleaned_text = re.sub(r'[^a-zA-Z0-9]', '', dt)
@@ -76,6 +76,7 @@ def fixdate(dt):
         d = dt[:idx]
         m = matches[0]
         y = dt[idx+len(m):]
+
 
 ##husna add
     if len(y) == 2:
